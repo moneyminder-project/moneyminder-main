@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/moneyMinder-expenses" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/moneyMinder-front" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/moneyMinder-gateway" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/moneyMinder-users" vcs="Git" />
+  </component>
+</project>
