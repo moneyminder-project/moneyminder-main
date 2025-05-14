@@ -33,6 +33,6 @@ services:
   frontend:
     image: smartpad/money-minder:front
     ports:
-      - "80:80"
+      - "8180:80"
     depends_on:
       - gateway
