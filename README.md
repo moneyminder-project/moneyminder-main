@@ -59,6 +59,16 @@
 - Puerto prod: `8180`
 
 ---
+## 🏛️ Estructura del proyecto y repositorios
+
+El proyecto está organizado en torno a un repositorio principal que contiene y coordina a los subrepositorios (expenses-services, users-service, api-gateway y front).
+- **Repositorio principal**: moneyminder-main (https://github.com/moneyminder-project/moneyminder-main)
+   - expenses-service (https://github.com/moneyminder-project/moneyminder-expenses)
+   - users-service (https://github.com/moneyminder-project/moneyminder-users)
+   - api-gateway (https://github.com/moneyminder-project/moneyminder-gateway)
+   - front(https://github.com/moneyminder-project/moneyminder-front)
+
+---
 
 ## 🧪 Entornos disponibles
 
