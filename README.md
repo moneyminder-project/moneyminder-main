@@ -1,93 +1,175 @@
-# moneyMinder-main
+# 💰 MoneyMinder
 
+**MoneyMinder** es una aplicación de gestión financiera personal que permite registrar gastos e ingresos, asignar presupuestos y visualizar información detallada de tus finanzas. Está compuesta por microservicios desarrollados con **Spring Boot**, un API Gateway con **Spring Cloud Gateway**, bases de datos **PostgreSQL**, y un frontend construido con **React + Vite**.
 
+---
 
-## Getting started
+## 📦 Arquitectura
+- **Frontend:** Realizado con React/Vite. Conecta con el Api Gateway para obtener los datos de back.
+- **Api Gateway:** Realizado con Spring Cloud. Sirve como puerta de enlace a los microservicios y al Auth Service.
+- **Expenses Service:** Realizado con Spring Boot. Contiene los end points de gastos e ingresos, detalles de gastos e ingresos y presupuestos.
+- **Users Service:** Realizado con Spring Boot. Contiene el Auth Service y los end points de usuarios, grupos y solicitudes de grupos.
+- **PostgreSQL Expenses:** Base de datos en PostgreSQL enlazada a Expenses Service.
+- **PostgreSQL Users:** Base de datos en PostgreSQL enlazada a Users Service.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+\* El servicio de autenticación está integrado en el Users Service, utilizando JWT y OAuth2.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+---
 
-## Add your files
+## 🚀 Tecnologías utilizadas
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+- **Backend:** Spring Boot, Spring Security, Spring Data JPA
+- **API Gateway:** Spring Cloud Gateway
+- **Bases de datos:** PostgreSQL
+- **Frontend:** React 18 + Vite
+- **Contenedores:** Docker y Docker Compose
+- **Documentación:** Swagger/OpenAPI via SpringDoc
+- **Pipes CI/CD** GitHub Actions
 
+---
+
+## 🧩 Microservicios
+
+### ✅ Users Service
+- Registro y autenticación de usuarios
+- Emite tokens JWT
+- Gestión de perfiles
+- Creación y gestión de grupos
+- Creación y gestión de solicitudes de grupos
+- Puerto: `18082`
+
+### ✅ Expenses Service
+- Registro de gastos e ingresos
+- Asociaciones gastos e ingresos con usuarios
+- Creación y gestión de presupuestos
+- Asociación de presupuestos con grupos
+- Creación y gestión de detalles de un ingreso o gasto
+- Puerto: `18081`
+
+### ✅ API Gateway
+- Enrutamiento centralizado
+- Verificación de JWT
+- Reenvía tráfico a los servicios
+- Puerto: `18080`
+
+### ✅ Frontend
+- SPA desarrollada con React + Vite
+- Interactúa a través del API Gateway
+- Puerto dev: `5173`
+- Puerto prod: `8180`
+
+---
+## 🏛️ Estructura del proyecto y repositorios
+
+El proyecto está organizado en torno a un repositorio principal que contiene y coordina a los subrepositorios (expenses-services, users-service, api-gateway y front).
+- **Repositorio principal**: moneyminder-main (https://github.com/moneyminder-project/moneyminder-main)
+   - expenses-service (https://github.com/moneyminder-project/moneyminder-expenses)
+   - users-service (https://github.com/moneyminder-project/moneyminder-users)
+   - api-gateway (https://github.com/moneyminder-project/moneyminder-gateway)
+   - front(https://github.com/moneyminder-project/moneyminder-front)
+
+---
+
+## 🧪 Entornos disponibles
+
+La aplicación soporta dos entornos:
+
+- **Development (`--profile development`)**
+- **Production (`--profile production`)**
+
+---
+
+## 🐳 Cómo ejecutar (modo desarrollo)
+
+1Me p. Inicia los servicios:
+   ```bash
+      docker compose --profile development up --build
+   ```
+
+3. Accede a:
+    - **Frontend:** [http://localhost:5173](http://localhost:5173)
+    - **Gateway:** [http://localhost:18080](http://localhost:18080)
+    - **Swagger (Expenses):** [http://localhost:18081/swagger-ui.html](http://localhost:18081/swagger-ui.html)
+    - **Swagger (Users):** [http://localhost:18082/swagger-ui.html](http://localhost:18082/swagger-ui.html)
+    - **Adminer (UI DB):** [http://localhost:9090](http://localhost:9090)
+
+---
+
+## 🛠 Variables de entorno
+
+Cada microservicio permite sobreescribir propiedades mediante variables de entorno. Algunas comunes:
+
+- `SPRING_DATASOURCE_URL`
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+- `JWK_SET_URI`
+- `GROUP_SERVICE_URL` / `BUDGET_SERVICE_URL`
+
+Estas se definen en el `docker-compose.yml` y se inyectan automáticamente en los servicios.
+
+---
+
+## 🗃️ Bases de datos
+
+Se levantan dos instancias de PostgreSQL:
+
+- `postgres-users` (puerto local: 5433)
+- `postgres-expenses` (puerto local: 5434)
+
+Puedes acceder a ellas con Adminer o cualquier cliente PostgreSQL usando:
+- Usuario: `postgres`
+- Contraseña: `12345`
+
+---
+
+## 📜 Documentación de APIs
+
+Ambos microservicios exponen documentación Swagger en:
+
+- **Users:** [http://localhost:18082/swagger-ui.html](http://localhost:18082/swagger-ui.html)
+- **Expenses:** [http://localhost:18081/swagger-ui.html](http://localhost:18081/swagger-ui.html)
+
+---
+
+## 🧼 Limpieza
+
+Para parar y eliminar contenedores y volúmenes:
+
+```bash
+   docker compose --profile development down -v
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/moneyminder2025/moneyminder-main.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab.com/moneyminder2025/moneyminder-main/-/settings/integrations)
+## ✅ Estado actual
 
-## Collaborate with your team
+- [x] Autenticación con JWT
+- [x] Gestión de usuarios
+- [x] Registro de ingresos/gastos
+- [x] Presupuesto donde añadir gastos/ingresos
+- [x] Solicitudes para añadir usuarios a presupuestos
+- [x] API Gateway con seguridad
+- [x] Frontend responsive
+- [x] Docker Compose listo para dev/prod
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+---
 
-## Test and Deploy
+## 📌 Próximas mejoras
 
-Use the built-in continuous integration in GitLab.
+- Añadir foto de perfil subida por el usuario
+- Descargar datos en formato Excel
+- Añadir etiquetas a los registros y presupuestos para facilitar la organización y búsqueda
+- Añadir traducción a la web (castellano e inglés)
+- Añadir la posibilidad de adjuntar imágenes y geolocalización en registros (gastos e ingresos)
+- Permitir generar un presupuesto a partir de otro, copiando sus datos
+- Permitir generar un registro (gasto o ingreso) a partir de otro, copiando sus datos
+- Añadir gráficos para el análisis de gastos e ingresos
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+---
 
-***
+## 👥 Autores
 
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+El proyecto ha sido desarrollado para la asignatura de TFG del Grado de Ingeniería Informática
+- **Universidad:** Universitat Oberta de Catalunya (UOC)
+- **Autor:** Saúl M.P.
+- **Tutor:** Gregorio R.M.
